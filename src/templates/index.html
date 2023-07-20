@@ -41,6 +41,7 @@
                 <!-- TABLA-->
                 <table class="table table-border">
                     <thead>
+                        <th scope="col">#</th>
                         <th scope="col">Nombres</th>
                         <th scope="col">Apellidos</th>
                         <th scope="col">Email</th>
@@ -49,18 +50,19 @@
                     </thead>
                     <tbody>
                         {% for item in data %}
-                        <tr>
+                        <tr class="{% if item.estado == 'p' %}table-info{% elif item.estado == 'a' %}table-success{% elif item.estado == 'd' %}table-danger{% endif %}">
+                            <td>{{ item.id }}</td>
                             <td>{{ item.nombres }}</td>
                             <td>{{ item.apellidos }}</td>
                             <td>{{ item.email }}</td>
-                            <td><button class="btn btn-primary btn-sm" id="btn-edit{{item._id}}" data-bs-toggle="modal"
-                                    data-bs-target="#modal{{item._id}}">Editar</button></td>
-                            <td><a href="{{ url_for('delete', id = item._id)}}" class="btn btn-danger btn-sm">Eliminar</a>
+                            <td><button class="btn btn-primary btn-sm" id="btn-edit{{item.id}}" data-bs-toggle="modal"
+                                    data-bs-target="#modal{{item.id}}">Editar</button></td>
+                            <td><a href="{{ url_for('delete', id = item.id)}}" class="btn btn-danger btn-sm">Eliminar</a>
                             </td>
                         </tr>
 
                         <!-- modal -->
-                        <div class="modal fade" id="modal{{item._id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="modal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -70,7 +72,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/edit/{{item._id}}" method="POST">
+                                        <form action="/edit/{{item.id}}" method="POST">
                                             <label>Nombres</label>
                                             <input type="text" class="form-control mb-3" name="nombres" value="{{item.nombres}}">
 
